@@ -1,0 +1,55 @@
+{% import "utility.html" as util %} 
+
+
+{{ util.htmltemplatetop() }}
+<link rel="stylesheet" href="{{url_for('static',filename='login.css')}}" />
+
+{{ util.navbar('Register') }}
+<div class="container">
+  <form method="POST">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter Email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+    <div class="form-group">
+        <label for="repassword">Retype-Password</label>
+        <input
+          type="repassword"
+          class="form-control"
+          id="repassword"
+          name="repassword"
+          placeholder="Retype-Password"
+        />
+      </div>
+    <div class="form-group">
+
+      <select class="form-select" name="role" id="role">
+
+        <option selected>Open this select Type of User</option>
+        <option value="manufacturer">Manufacturer</option>
+        <!-- <option value="customer">Customer</option>
+        <option value="distributor">Distributor</option>
+        <option value="ownsellers">Own Sellers</option> -->
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Signup</button>
+  </form>
+</div>
+{{util.htmltemplatebottom() }}
