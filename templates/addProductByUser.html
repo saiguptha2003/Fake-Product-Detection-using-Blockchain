@@ -1,0 +1,53 @@
+{% import "utility.html" as util %} 
+
+
+{{ util.htmltemplatetop() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/addProduct.css')}}" />
+    {{ util.UserNavbar('Add Product U') }}
+    <div class="container">
+    <form>
+        <div class="form-group">
+          <label for="product_id">Product Id </label>
+          <input type="text" class="form-control" id="product_id" aria-describedby="emailHelp" placeholder="Enter Product Id" name="product_id">
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" name="role">
+              <option value="supplier">Supplier</option>
+              <option value="distributor">Distributor</option>
+              <option value="wholesaler">Wholesaler</option>
+              <option value="retailer">Retailer</option>
+            </select>
+        </div>
+          <div class="form-group">
+            <label for="status">Status </label>
+            <input type="text" class="form-control" id="status" aria-describedby="emailHelp" placeholder="Enter Product status" name="status">
+          </div>
+          <div class="form-group">
+            <label for="source">Present Source</label>
+            <select class="form-control" id="source" name="source">
+              <option value="supplier">Supplier</option>
+              <option value="distributor">Distributor</option>
+              <option value="wholesaler">Wholesaler</option>
+              <option value="retailer">Retailer</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="destination">Next Destination </label>
+            <select class="form-control" id="destination" name="desitnation">
+              <option value="supplier">Supplier</option>
+              <option value="distributor">Distributor</option>
+              <option value="wholesaler">Wholesaler</option>
+              <option value="retailer">Retailer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="remarks">Remarks </label>
+            <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+          </div>
+          <button  class="btn btn-primary" id="connectButton"><img src="{{url_for('static',filename='metamask-icon.png')}}" width="30" height="30">&nbsp;&nbsp;Connect</button>
+      </form>
+
+    </div>
+      {{util.htmltemplatebottom()}}

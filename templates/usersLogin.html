@@ -1,0 +1,43 @@
+{% import "utility.html" as util %} 
+
+
+{{ util.htmltemplatetop() }}
+<link rel="stylesheet" href="{{url_for('static',filename='login.css')}}" />
+
+{{ util.navbar('') }}
+<div class="container">
+  <form method="POST" action="{{url_for('UserLogin')}}">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter Email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select class="form-control" id="role" name="role">
+          <option value="supplier">Supplier</option>
+          <option value="distributor">Distributor</option>
+          <option value="wholesaler">Wholesaler</option>
+          <option value="retailer">Retailer</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">login</button>
+  </form>
+</div>
+{{util.htmltemplatebottom() }}

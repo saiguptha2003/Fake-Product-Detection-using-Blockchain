@@ -20,17 +20,9 @@ def login():
             session['logged_in'] = True
             session['email'] = email
             session['role'] = role
-            
+
             flash('successfully logined','success')
-            print(email, password, role)
-            if(role=='Manufacturer'):
-                return redirect(url_for('manufacturer'))
-            elif(role=='Customer'):
-                return redirect(url_for('customer'))
-            elif(role=='Distributor'):
-                return redirect(url_for('distributor'))
-            elif(role=='ownsellers'):
-                return redirect(url_for('retailer'))
+            return redirect(url_for('manufacturer'))
         
         else:
             flash('Invalid Credentials','danger')
@@ -38,20 +30,7 @@ def login():
         
     return render_template('login.html')
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        email=request.form['email']
-        password=request.form['password']
-        role=request.form['role']
-        if(u.createuser(email, password, role)):
-            flash('successfully registered','success')
-            return redirect(url_for('login'))
-        else:
-            flash('Invalid Credentials','danger')
-            return redirect(url_for('register'))
-    
-    return render_template('signup.html')  
+
         
 @app.route('/')
 def index():
@@ -59,33 +38,42 @@ def index():
 
 @app.route('/Manufacturer')
 def manufacturer():
-    
     return render_template('manufacturer.html')
 
 
-@app.route("/Manufacturer/AddUsers")
+@app.route("/Manufacturer/adduser", methods=['GET', 'POST'])
 def AddUsers():
-    if session['role'] == 'Manufacturer' and session['logged_in'] == True:
-        if request.method == 'POST':
-            email=request.form['email']
-            password=request.form['password']
-            role=request.form['role']
-            if(u.createuser(email, password, role)):
-                flash('successfully registered','success')
-                return redirect(url_for('manufacturer'))
-            else:
-                flash('Invalid Credentials','danger')
+    if request.method == 'POST':
+        email=request.form['email']
+        address=request.form['address']
+        remarks=request.form['remarks']
+        role=request.form['role']
+        password=role
+        if(u.createUserbyrole(email, password, role,remarks,address)):
+            print("success")
+            flash('successfully registered','success')
+            return redirect(url_for('manufacturer'))
+        else:
+            print("failed")
+            flash('Invalid Credentials','danger')
             return redirect(url_for('AddUsers'))
-        return render_template('AddUsers.html')
+    return render_template('AddUsers.html')
     
 @app.route('/customer')
 def customer():
-    
     return render_template('customer.html')
 
+@app.route('/supplier')
+def supplier():
+    return render_template('supplier.html')
+
 @app.route('/distributor')
-def Add_Distributor():
+def distributor():
     return render_template('distributor.html')
+
+@app.route('/wholesaler')
+def wholesaler():
+    return render_template('wholesaler.html')
 
 @app.route('/retailer')
 def retailer():
@@ -93,7 +81,7 @@ def retailer():
 
 @app.route('/logout')
 def logout():
-    logout_user()
+    # logout_user()
     return redirect(url_for('index'))
 
 @app.route('/Manufacturer/addproduct', methods=['GET', 'POST'])
@@ -113,8 +101,68 @@ def addproduct():
                 return redirect(url_for('addproduct'))
             else:
                 flash('Sorry data not enetered..','danger')
-        return render_template('addProduct.html')
+    return render_template('addProduct.html')
         
-    
+        
+@app.route('/UserLogin',methods=['GET', 'POST'])
+def UserLogin():
+    if request.method == 'POST':
+        email=request.form['email']
+        password=request.form['password']
+        role=request.form['role']
+        if(u.rolebased_login(email, password, role)):
+            session['logged_in'] = True
+            session['email'] = email
+            session['role'] = role
+            if role == 'supplier':
+                return redirect(url_for('supplier'))
+            elif role == 'distributor':
+                return redirect(url_for('distributor'))
+            elif role == 'wholesaler':
+                return redirect(url_for('wholesaler'))
+            elif role == 'retailer':
+                return redirect(url_for('retailer'))
+            elif role == 'customer':
+                return redirect(url_for('customer'))
+        else:
+            flash('Invalid Credentials','danger')
+            return redirect(url_for('UserLogin'))
+    return render_template('usersLogin.html')
+
+@app.route('/user/addProductByUser', methods=['GET', 'POST'])
+def addProductByUser():
+    if request.method == 'POST':
+        data=request.get_json()
+        product_name=data['productName']
+        product_id=data['product_id']
+        source='Factory'
+        destination=data['destination']
+        remarks=data['remarks']
+        status=data['status']
+        role=data['role']
+        if(u.addproduct(product_name, product_id, source, destination, remarks, status, role)):
+            flash('successfully registered','success')
+            return redirect(url_for('addproduct'))
+        else:
+            flash('Sorry data not enetered..','danger')
+    return render_template('addProductByUser.html')
+
+@app.route("/user/addusersbyusers", methods=['GET', 'POST'])
+def AddUsersByUsers():
+    if request.method == 'POST':
+        email=request.form['email']
+        address=request.form['address']
+        remarks=request.form['remarks']
+        role=request.form['role']
+        password=role
+        if(u.createUserbyrole(email, password, role,remarks,address)):
+            print("success")
+            flash('successfully registered','success')
+            return redirect(url_for(role))
+        else:
+            print("failed")
+            flash('Invalid Credentials','danger')
+            return redirect(url_for('AddUsers'))
+    return render_template('addUsersByUsers.html')
 
 app.run(debug=True)

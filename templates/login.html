@@ -6,7 +6,7 @@
 
 {{ util.navbar('Login') }}
 <div class="container">
-  <form method="POST">
+  <form method="POST" action="{{url_for('login')}}">
     <div class="form-group">
       <label for="email">Email</label>
       <input

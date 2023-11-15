@@ -3,9 +3,11 @@
 
 {{ util.htmltemplatetop() }}
 <link rel="stylesheet" href="{{url_for('static',filename='css/addProduct.css')}}" />
-    {{ util.manufacturernavbar('Add User M') }}
+
+
+{{ util.UserNavbar('Add Users') }}
 <div class="container">
-    <form method="POST" action="{{url_for('AddUsers')}}">
+    <form method="POST"  action="{{url_for('AddUsersByUsers')}}">
         <div class="form-group">
           <label for="email">Email of User</label>
           <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email">
@@ -20,16 +22,15 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="address">Address</label>
+            <label for="exampleFormControlTextarea1">Address</label>
             <textarea class="form-control" id="address" name="address" rows="3"></textarea>
           </div>
           <div class="form-group">
             <label for="remarks">Remarks </label>
             <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" >Create User</button>
+          <button  class="btn btn-primary" id="createuser">Create User</button>
       </form>
-    </div>
 
     </div>
 
